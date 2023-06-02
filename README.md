@@ -22,6 +22,10 @@ assert_eq!(
 - [x] `format_args!` macro.
 - [x] Named parameters.
 
+## Docs
+
+Documentation is provided on [docs.rs](https://docs.rs/inline_format).
+
 ## STD Problems
 
 The format macros in this crate work almost the same as [the standard format macros](https://doc.rust-lang.org/std/fmt/index.html).
