@@ -1,0 +1,22 @@
+[package]
+name = "inline_format"
+description = "A more readable collection of string formatting macros."
+version = "0.1.0"
+edition = "2021"
+authors = ["Kyza"]
+license = "MIT"
+repository = "https://github.com/Kyza/inline_format"
+readme = "./README.md"
+keywords = ["macro", "format", "string", "", "proc_macro"]
+categories = ["development-tools::build-utils", "value-formatting"]
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+proc-macro2 = "1.0.56"
+proc-macro-error = "1.0.4"
+quote = "1.0.27"
+syn = { version = "2.0.15", features = ["full", "extra-traits"] }
+
+[lib]
+proc-macro = true
