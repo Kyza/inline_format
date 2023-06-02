@@ -7,7 +7,7 @@ authors = ["Kyza"]
 license = "MIT"
 repository = "https://github.com/Kyza/inline_format"
 readme = "./README.md"
-keywords = ["macro", "format", "string", "", "proc_macro"]
+keywords = ["macro", "format", "string", "text", "proc_macro"]
 categories = ["development-tools::build-utils", "value-formatting"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
