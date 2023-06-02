@@ -93,8 +93,6 @@ format!({
 
 If you'd like to use an expression multiple times, you can name it and reference the name.
 
-They can be named and referenced at any point, but this isn't recommended for readability.
-
 Format traits apply ***to the section not the variable***.
 
 Because of how `format_args!` works the named parameters don't live long enough, so they get automatically cloned for you rather than evaluated multiple times.
@@ -103,10 +101,6 @@ Because of how `format_args!` works the named parameters don't live long enough,
 use inline_format::format;
 
 format!(x10 = 10 * 10:o " " x10) // 144 100
-
-// Out of order still works.
-// Not recommended.
-format!(x10:o " " x10 = 10 * 10) // 144 100
 
 // Named parameters can also be surrounded in blocks.
 // Format traits go outside the block.
