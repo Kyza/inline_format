@@ -116,5 +116,5 @@ format!(2:"<5)
 In order to fix this, wrap the traits in quotes and escape the character if it's a `"`.
 
 ```rs
-format!(2:"\"<5") // """"2
+format!(2:"\"<5") // 2""""
 ```
