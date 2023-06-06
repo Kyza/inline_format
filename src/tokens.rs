@@ -1,6 +1,5 @@
-use proc_macro2::{TokenStream as TokenStream2, TokenTree};
+use proc_macro2::TokenTree;
 
-use quote::ToTokens;
 use syn::{
 	braced,
 	parse::{Parse, ParseStream},
