@@ -41,9 +41,10 @@ pub fn ident_from_left(left: &TokenStream2) -> syn::Result<Ident> {
 pub fn make_format_string(
 	macro_name: &str,
 	input: TokenStream,
+	uses_stream: bool,
 	clone_named: bool,
 ) -> TokenStream {
-	let statement = parse_macro_input!(input as FormatStatement);
+	let mut statement = parse_macro_input!(input as FormatStatement);
 
 	let mut names: HashSet<Ident> = HashSet::new();
 	let mut defined_names: HashSet<Ident> = HashSet::new();
@@ -51,6 +52,17 @@ pub fn make_format_string(
 	let mut string: String = String::new();
 	let mut assignments: Vec<TokenStream2> = vec![];
 	let mut args: Vec<TokenStream2> = vec![];
+
+	let stream = if uses_stream {
+		if let Some(first) = statement.stream {
+			statement.parts.remove(0);
+			Some(quote! { #first, })
+		} else {
+			None
+		}
+	} else {
+		None
+	};
 
 	for part in &statement.parts {
 		if let FormatPart::Expression(expression_part) = part {
@@ -85,7 +97,7 @@ pub fn make_format_string(
 			FormatPart::Expression(expression_part) => {
 				string.push_str(&format!(
 					"{{{}}}",
-					expression_part.traits.to_string().replace(' ', "")
+					expression_part.traits.replace(' ', "")
 				));
 				if let Some(left) = expression_part.left {
 					let name = ident_from_left(&left.to_token_stream());
@@ -138,14 +150,6 @@ pub fn make_format_string(
 	}
 
 	let macro_name = Ident::new(macro_name, Span::call_site());
-
-	let stream = {
-		statement.stream.map(|stream| {
-			quote! {
-				#stream,
-			}
-		})
-	};
 
 	quote! {
 		{

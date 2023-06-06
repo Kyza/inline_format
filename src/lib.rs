@@ -21,7 +21,7 @@ mod utils;
 /// ```
 #[doc = include_str!("../README.md")]
 pub fn format(input: TokenStream) -> TokenStream {
-	make_format_string("format", input, false)
+	make_format_string("format", input, false, false)
 }
 
 #[proc_macro]
@@ -37,7 +37,7 @@ pub fn format(input: TokenStream) -> TokenStream {
 /// ```
 #[doc = include_str!("../README.md")]
 pub fn write(input: TokenStream) -> TokenStream {
-	make_format_string("write", input, false)
+	make_format_string("write", input, true, false)
 }
 #[proc_macro]
 #[proc_macro_error]
@@ -52,7 +52,7 @@ pub fn write(input: TokenStream) -> TokenStream {
 /// ```
 #[doc = include_str!("../README.md")]
 pub fn writeln(input: TokenStream) -> TokenStream {
-	make_format_string("writeln", input, false)
+	make_format_string("writeln", input, true, false)
 }
 
 #[proc_macro]
@@ -68,7 +68,7 @@ pub fn writeln(input: TokenStream) -> TokenStream {
 /// ```
 #[doc = include_str!("../README.md")]
 pub fn print(input: TokenStream) -> TokenStream {
-	make_format_string("print", input, false)
+	make_format_string("print", input, false, false)
 }
 #[proc_macro]
 #[proc_macro_error]
@@ -83,7 +83,7 @@ pub fn print(input: TokenStream) -> TokenStream {
 /// ```
 #[doc = include_str!("../README.md")]
 pub fn println(input: TokenStream) -> TokenStream {
-	make_format_string("println", input, false)
+	make_format_string("println", input, false, false)
 }
 
 #[proc_macro]
@@ -99,7 +99,7 @@ pub fn println(input: TokenStream) -> TokenStream {
 /// ```
 #[doc = include_str!("../README.md")]
 pub fn eprint(input: TokenStream) -> TokenStream {
-	make_format_string("eprint", input, false)
+	make_format_string("eprint", input, false, false)
 }
 #[proc_macro]
 #[proc_macro_error]
@@ -114,7 +114,7 @@ pub fn eprint(input: TokenStream) -> TokenStream {
 /// ```
 #[doc = include_str!("../README.md")]
 pub fn eprintln(input: TokenStream) -> TokenStream {
-	make_format_string("eprintln", input, false)
+	make_format_string("eprintln", input, false, false)
 }
 
 #[proc_macro]
@@ -130,5 +130,5 @@ pub fn eprintln(input: TokenStream) -> TokenStream {
 /// ```
 #[doc = include_str!("../README.md")]
 pub fn format_args(input: TokenStream) -> TokenStream {
-	make_format_string("format_args", input, true)
+	make_format_string("format_args", input, false, true)
 }

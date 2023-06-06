@@ -1,5 +1,6 @@
 use proc_macro2::{TokenStream as TokenStream2, TokenTree};
 
+use quote::ToTokens;
 use syn::{
 	braced,
 	parse::{Parse, ParseStream},
@@ -12,7 +13,7 @@ use crate::utils::peek_any;
 pub struct FormatExpression {
 	pub left: Option<Expr>,
 	pub right: Expr,
-	pub traits: TokenStream2,
+	pub traits: String,
 }
 
 impl Parse for FormatExpression {
@@ -37,16 +38,38 @@ impl Parse for FormatExpression {
 			(None, block.parse::<Expr>()?)
 		};
 
-		let mut traits: Vec<TokenTree> = vec![];
+		let mut traits: Vec<char> = vec![];
 
-		while !input.is_empty() && !input.peek(LitStr) {
-			traits.push(input.parse::<TokenTree>()?);
+		if input.peek(Token![:]) {
+			if input.peek2(LitStr) {
+				_ = input.parse::<Token![:]>()?;
+				let string = input.parse::<LitStr>()?.value();
+
+				traits.push(':');
+
+				for char in string.chars() {
+					traits.push(char);
+				}
+			} else {
+				while !input.is_empty()
+					&& !input.peek(LitStr)
+					// The fill character could be a comma.
+					&& !(input.peek(Token![,]) && input.peek2(LitStr))
+				{
+					let string = input.parse::<TokenTree>()?.to_string();
+
+					for char in string.chars() {
+						traits.push(char);
+					}
+				}
+			}
 		}
+		let traits = traits.iter().collect();
 
 		Ok(FormatExpression {
 			left,
 			right,
-			traits: TokenStream2::from_iter(traits),
+			traits,
 		})
 	}
 }
@@ -65,20 +88,6 @@ pub struct FormatStatement {
 
 impl Parse for FormatStatement {
 	fn parse(input: ParseStream) -> syn::Result<Self> {
-		let stream = {
-			if let Some((finput, stream)) = peek_any::<Expr>(input, false) {
-				if finput.peek(Token![,]) {
-					input.parse::<Expr>()?;
-					input.parse::<Token![,]>()?;
-					Some(stream)
-				} else {
-					None
-				}
-			} else {
-				None
-			}
-		};
-
 		let mut parts = vec![];
 
 		while !input.is_empty() {
@@ -89,7 +98,17 @@ impl Parse for FormatStatement {
 					input.parse::<FormatExpression>()?,
 				));
 			}
+			if input.peek(Token![,]) {
+				input.parse::<Token![,]>()?;
+			}
 		}
+
+		let stream = if let Some(FormatPart::Expression(part)) = parts.first()
+		{
+			Some(part.right.clone())
+		} else {
+			None
+		};
 
 		Ok(FormatStatement { stream, parts })
 	}

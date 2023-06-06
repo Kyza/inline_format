@@ -3,10 +3,12 @@
 A more readable collection of string formatting macros.
 
 ```rs
+use inline_format::format;
+
 let val = 2 + 2;
 assert_eq!(
 	std::format!("text {{}} {val:04} text {:o}", 10 * 10),
-	format!("text {} " val:04 " text " 10 * 10:o)
+	     format!("text {} " val:04 " text " 10 * 10:o)
 );
 ```
 
@@ -20,6 +22,7 @@ assert_eq!(
 - [x] `eprint!` macro.
 - [x] `eprintln!` macro.
 - [x] `format_args!` macro.
+- [x] Optional comma separation.
 - [x] Named parameters.
 
 ## Docs
@@ -40,11 +43,6 @@ Modifying those arguments might even lead to mistakes as well, especially when c
 
 One built in solution is using [named parameters](https://doc.rust-lang.org/std/fmt/index.html#named-parameters) which does improve the experience, but it still has the disadvantage of being after the string.
 
-```rs
-let val = 2 + 2;
-format!("text {{}} {val:04} text {}", 10 * 10)
-```
-
 ## Usage
 
 This crate solves all of that by moving the code to outside of the string, and removing the concept of separate arguments (aside from the `stream` target in `write!` and `writeln!`).
@@ -55,7 +53,11 @@ This crate solves all of that by moving the code to outside of the string, and r
 use inline_format::format;
 
 let val = 2 + 2;
-format!("text {} " val:04 " text " 10 * 10) // "text {} 0004 text 100"
+format!("text {} " val:04 " text " 10 * 10) // text {} 0004 text 100
+
+// Comma separation is optional.
+// All other examples will be without commas.
+format!("text {} ", val:04, " text ", 10 * 10) // text {} 0004 text 100
 ```
 
 Now you can see exactly where your expressions are located in the string at a glance, and what formatting traits are applied to them if any. All by continuously reading left to right.
@@ -71,8 +73,6 @@ Since the macros compile to the std macro equivalents, they should support the s
 To join multiple expressions in a row, put `""` in between them.
 
 ```rs
-use inline_format::format;
-
 format!(2 + 2 "" 10 * 10 :04) // 40100
 ```
 
@@ -81,8 +81,6 @@ format!(2 + 2 "" 10 * 10 :04) // 40100
 If you have a longer expression you might need to close it in a block.
 
 ```rs
-use inline_format::format;
-
 format!({
 	let val = 2 + 2;
 	val
@@ -98,11 +96,25 @@ Format traits apply ***to the section not the variable***.
 Because of how `format_args!` works the named parameters don't live long enough, so they get automatically cloned for you rather than evaluated multiple times.
 
 ```rs
-use inline_format::format;
-
 format!(x10 = 10 * 10:o " " x10) // 144 100
 
 // Named parameters can also be surrounded in blocks.
 // Format traits go outside the block.
 format!({x10 = 10 * 10}:o " " x10) // 144 100
+```
+
+### Unbalanced fill character.
+
+Rust's macro syntax *absolutely cannot* have unbalanced braces or quotes.
+
+The following produces an error.
+
+```rs
+format!(2:"<5)
+```
+
+In order to fix this, wrap the traits in quotes and escape the character if it's a `"`.
+
+```rs
+format!(2:"\"<5") // """"2
 ```
