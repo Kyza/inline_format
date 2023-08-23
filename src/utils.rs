@@ -71,7 +71,7 @@ pub fn make_format_string(
 
 				if name.is_err() {
 					abort! { left,
-						format!("failed to get the name from a assignment \"{}\"'s left", left.to_token_stream().to_string());
+						format!("failed to get the name from an assignment \"{}\"'s left", left.to_token_stream().to_string());
 						help = "I don't know how you got here, or how this could\
 						 possibly happen, but apparently it can. So I'm writing\
 						 this message to say that you're doing something wrong\

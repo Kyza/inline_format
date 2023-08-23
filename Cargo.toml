@@ -1,7 +1,7 @@
 [package]
 name = "inline_format"
 description = "A more readable collection of string formatting macros."
-version = "0.2.1"
+version = "0.2.2"
 edition = "2021"
 authors = ["Kyza"]
 license = "MIT"
@@ -10,13 +10,11 @@ readme = "./README.md"
 keywords = ["macro", "format", "string", "text", "proc_macro"]
 categories = ["development-tools::build-utils", "value-formatting"]
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
 [dependencies]
-proc-macro2 = "1.0.56"
+proc-macro2 = "1.0.66"
+quote = "1.0.33"
+syn = { version = "2.0.29", features = ["full", "extra-traits"] }
 proc-macro-error = "1.0.4"
-quote = "1.0.27"
-syn = { version = "2.0.15", features = ["full", "extra-traits"] }
 
 [lib]
 proc-macro = true

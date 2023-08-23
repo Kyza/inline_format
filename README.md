@@ -1,4 +1,9 @@
-# inline_format
+# inline_format &emsp; [<img src="https://img.shields.io/badge/github-Kyza/inline_format?style=for-the-badge&color=555555&labelColor=333333&logo=github" alt="GitHub Badge" height="20"/>][GitHub Link] [<img src="https://img.shields.io/crates/v/inline_format.svg?style=for-the-badge&color=fc8d62&labelColor=333333&logo=rust" alt="crates.io Badge" height="20"/>][crates.io Link] [<img src="https://img.shields.io/badge/docs.rs-inline_format?style=for-the-badge&color=555555&labelColor=333333&logo=docs.rs" alt="docs.rs Badge" height="20"/>][docs.rs Link] [<img src="https://img.shields.io/github/actions/workflow/status/Kyza/inline_format/test.yml?branch=trunk&style=for-the-badge&labelColor=333333" alt="Build Status Badge" height="20"/>][Build Status Link]
+
+[GitHub Link]: https://github.com/Kyza/inline_format
+[crates.io Link]: https://crates.io/crates/inline_format
+[docs.rs Link]: https://docs.rs/inline_format
+[Build Status Link]: https://github.com/Kyza/inline_format/actions?query=branch%3Atrunk
 
 A more readable collection of string formatting macros.
 
@@ -24,10 +29,6 @@ assert_eq!(
 - [x] `format_args!` macro.
 - [x] Optional comma separation.
 - [x] Named parameters.
-
-## Docs
-
-Documentation is provided on [docs.rs](https://docs.rs/inline_format).
 
 ## STD Problems
 

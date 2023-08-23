@@ -50,10 +50,9 @@ impl Parse for FormatExpression {
 					traits.push(char);
 				}
 			} else {
-				while !input.is_empty()
-					&& !input.peek(LitStr)
-					// The fill character could be a comma.
-					&& !(input.peek(Token![,]) && input.peek2(LitStr))
+				while !(input.is_empty()
+					|| input.peek(LitStr)
+					|| input.peek(Token![,]) && input.peek2(LitStr))
 				{
 					let string = input.parse::<TokenTree>()?.to_string();
 
